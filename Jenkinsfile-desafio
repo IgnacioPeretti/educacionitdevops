@@ -1,0 +1,46 @@
+def LOGIN
+def PASSWORD
+pipeline {
+    agent any
+    parameters {
+        string(name: 'name', defaultValue: '', description: 'Nombre')
+        string(name: 'surname', defaultValue: '', description: 'Apellido')
+        choice(name: 'departament', choices: ['contabilidad', 'finanzas', 'tecnologia'], description: 'Selecciona el departamento')
+    }
+    stages {
+        stage("Creación de usuario y asignamiento de grupo") {
+            steps {
+                script {
+                    //Se concatena el nombre y apellido para formar el login
+                    LOGIN = "${params.name}${params.surname}"
+                }
+
+                //Se crea el usuario con los datos ingresados
+                sh "sudo useradd -m -c '${params.name} ${params.surname}, Departamento de ${params.departament}' ${LOGIN}"
+
+                //Se asigna el usuario a un grupo (departamento)
+                sh "sudo usermod -aG ${params.departament} ${LOGIN}"
+            }
+        }
+
+        stage("Generación de password temporal") {
+            steps {
+                script {
+                    //Se genera una password aleatoria
+                    PASSWORD = sh(script: 'openssl rand -base64 12', returnStdout: true).trim()
+                }
+
+                //Se asigna la passsword aleatoria a usuario y que sea temporal
+                sh "echo '${LOGIN}:${PASSWORD}' | sudo chpasswd"
+                sh "sudo passwd -e ${LOGIN}"
+            }
+        }
+
+        stage("Visualización de password temporal") {
+            steps {
+                //Se muestra la contraseña para que el oeprador pueda enviársela al usuario
+                echo "La contraseña del usuario ${LOGIN} es ${PASSWORD}"
+            }
+        }
+    }
+}
