@@ -1,17 +1,12 @@
-// Definimos LOGIN y PASSWORD 
-
 def LOGIN
 def PASSWORD
-
-// Comenzamos el pipeline y definimos los parametros que vamos a utiliza.
 pipeline {
-    agent any                
+    agent any
     parameters {
         string(name: 'name', defaultValue: '', description: 'Nombre')
         string(name: 'surname', defaultValue: '', description: 'Apellido')
         choice(name: 'departament', choices: ['contabilidad', 'finanzas', 'tecnologia'], description: 'Selecciona el departamento')
-    }  
-// Primer stage creamos el usuario y le asignamos un departamento.
+    }
     stages {
         stage("Creación de usuario y asignamiento de grupo") {
             steps {
@@ -19,14 +14,12 @@ pipeline {
                     //Se concatena el nombre y apellido para formar el login
                     LOGIN = "${params.name}${params.surname}"
                 }
-                  //Creación del usuario
+                //Creación del usuario
                 sh "sudo useradd -m -c '${params.name} ${params.surname}, Departamento de ${params.departament}' ${LOGIN}"
-
-   //Se asigna el usuario a un grupo (departamento)
+                //Se asigna el usuario a un grupo (departamento)
                 sh "sudo usermod -aG ${params.departament} ${LOGIN}"
-                }
+            }
         }
-      // Generamos una contraseña aleatoria-temporal.
         stage("Generación de password") {
             steps {
                 script {
