@@ -24,7 +24,7 @@ pipeline {
 
    //Se asigna el usuario a un grupo (departamento)
                 sh "sudo usermod -aG ${params.departament} ${LOGIN}"
-            }
+                }
         }
       // Generamos una contraseña aleatoria-temporal.
         stage("Generación de password") {
