@@ -1,6 +1,7 @@
 Guia para utilizar el job JENKINSFILE-PRACTICA.
 
 PASO NUMERO 1 
+
 Empezamos definiendo LOGIN y PASSWORD.
 Seguido iniciamos el pipeline y le pasamos los parametros “name” y “surname” que van a formar nuestro LOGIN.
 seguido, nuestro último parámetro será choice que nos dará la opción de elegir el departamento donde ubicamos  a nuestro usuario.
