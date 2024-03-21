@@ -37,7 +37,7 @@ pipeline {
                 sh "echo '${LOGIN}:${PASSWORD}' | sudo chpasswd"
                 sh "sudo passwd -e ${LOGIN}"
             }
-        // El operador obtiene la contraseña para enviársela al usuario.
+        }
         stage("Visualización de password temporal") {
             steps {
                 //Se muestra la contraseña que será enviada al usuario
