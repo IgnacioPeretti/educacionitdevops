@@ -23,7 +23,7 @@ pipeline {
             }
         }
 
-        stage("Generación de contraseña") {
+        stage("Generación de password") {
             steps {
                 script {
                     //Se genera una contraseña aleatoria
