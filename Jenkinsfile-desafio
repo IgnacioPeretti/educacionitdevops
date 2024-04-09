@@ -8,7 +8,7 @@ pipeline {
         choice(name: 'departament', choices: ['contabilidad', 'finanzas', 'tecnologia'], description: 'Selecciona el departamento')
     }
     stages {
-        stage("Creación de usuario y grupo") {
+        stage("Creación de usuario y asignacion de grupo") {
             steps {
                 script {
                     //Se concatena el nombre y apellido para formar el login
